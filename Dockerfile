@@ -9,7 +9,7 @@ COPY src src
 
 RUN cargo build --release
 
-FROM debian:bullseye-slim
+FROM ubuntu:latest
 WORKDIR /app
 
 COPY --from=builder /code/target/release/menhera_album menhera_album
