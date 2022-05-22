@@ -1,38 +1,58 @@
 use actix_web::{
     get, web,
-    App, HttpResponse, HttpServer, Result, Responder
+    App, HttpServer, Result, Responder
 };
 use serde::Serialize;
 use actix_files::Files;
+use std::time::Instant;
+
 
 #[derive(Serialize)]
-pub struct AvailableAssets {
-    angry: u32,
-    bicuda: u32,
-    bite: u32,
-    cheek: u32,
-    cry: u32,
-    disgusted: u32,
-    fear: u32,
-    fodase: u32,
-    grumble: u32,
-    hug: u32,
-    humor: u32,
-    kill: u32,
-    kiss: u32,
-    laugh: u32,
-    mamar: u32,
-    pat: u32,
-    poke: u32,
-    punch: u32,
-    resurrect: u32,
-    sarrar: u32,
-    sarrar_sozinho: u32,
-    shot: u32,
-    shy: u32,
-    slap: u32,
-    sniff: u32,
-    think: u32,
+struct Ping {
+    uptime: u128,
+}
+
+#[derive(Clone)]
+struct Uptime {
+    start_at: std::time::Instant,
+}
+
+impl Uptime {
+    fn new() -> Self {
+        Uptime {
+            start_at: Instant::now(),
+        }
+    }
+}
+
+#[derive(Serialize)]
+struct AvailableAssets {
+    angry: u8,
+    bicuda: u8,
+    bite: u8,
+    cheek: u8,
+    cry: u8,
+    disgusted: u8,
+    fear: u8,
+    fodase: u8,
+    grumble: u8,
+    hug: u8,
+    humor: u8,
+    kill: u8,
+    kiss: u8,
+    laugh: u8,
+    mamar: u8,
+    pat: u8,
+    poke: u8,
+    punch: u8,
+    resurrect: u8,
+    sarrar: u8,
+    sarrar_sozinho: u8,
+    shot: u8,
+    shy: u8,
+    slap: u8,
+    sniff: u8,
+    think: u8,
 }
 
 #[get("/")]
@@ -68,22 +88,27 @@ async fn index() -> Result<impl Responder> {
     Ok(web::Json(obj))
 }
 
-#[get("/{source}/{name}")]
-async fn images(path: web::Path<(String, String)>) -> Result<HttpResponse> {
-    let (action, file) = path.into_inner();
-    let extension = if action == "fodase" || action == "humor" {"png"} else {"gif"};
-    let f = async_std::fs::read(format!("./assets/{}/{}.{}", action, file, extension)).await?;
-    Ok(HttpResponse::Ok().content_type(format!("image/{}", extension)).body(f))
+#[get("/ping")]
+async fn ping(data: web::Data<Uptime>) -> Result<impl Responder> {
+    let obj = Ping {
+        uptime: data.start_at.elapsed().as_millis()
+    };
+
+    Ok(web::Json(obj))
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     println!("Server started at port 8080");
-    HttpServer::new(|| {
+
+    let uptime = Uptime::new();
+
+    HttpServer::new(move || {
         App::new()
+            .app_data(web::Data::new(uptime.clone()))
             .service(index)
+            .service(ping)
             .service(Files::new("/images", "assets"))
-            .service(images)
     })
     .bind(("0.0.0.0", 8080))?
     .run()
