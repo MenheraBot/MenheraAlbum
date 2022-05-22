@@ -36,15 +36,15 @@ pub struct AvailableAssets {
 #[get("/")]
 async fn index() -> Result<impl Responder> {
     let obj = AvailableAssets {
-        angry: 14,
-        bicuda: 14,
-        bite: 14,
+        angry: 39,
+        bicuda: 34,
+        bite: 33,
         cheek: 17,
         cry: 26,
         disgusted: 17,
         fear: 21,
         fodase: 37,
-        grumble: 17,
+        grumble: 18,
         hug: 26,
         humor: 50,
         kill: 23,
