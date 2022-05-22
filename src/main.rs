@@ -3,6 +3,7 @@ use actix_web::{
     App, HttpResponse, HttpServer, Result, Responder
 };
 use serde::Serialize;
+use actix_files::Files;
 
 #[derive(Serialize)]
 pub struct AvailableAssets {
@@ -81,6 +82,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .service(index)
+            .service(Files::new("/images", "assets"))
             .service(images)
     })
     .bind(("0.0.0.0", 8080))?
