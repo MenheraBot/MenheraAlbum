@@ -1,6 +1,6 @@
 use actix_web::{
-    get,
-    web, App, HttpResponse, HttpServer, Result, Responder
+    get, web,
+    App, HttpResponse, HttpServer, Result, Responder
 };
 use serde::Serialize;
 
@@ -40,9 +40,9 @@ async fn index() -> Result<impl Responder> {
         bicuda: 14,
         bite: 14,
         cheek: 17,
-        cry: 25,
+        cry: 26,
         disgusted: 17,
-        fear: 20,
+        fear: 21,
         fodase: 37,
         grumble: 17,
         hug: 26,
@@ -52,15 +52,15 @@ async fn index() -> Result<impl Responder> {
         mamar: 21,
         pat: 26,
         poke: 24,
-        punch: 21,
-        resurrect: 5,
+        punch: 22,
+        resurrect: 7,
         sarrar: 5,
         sarrar_sozinho: 2,
-        shot: 13,
+        shot: 14,
         shy: 14,
-        slap: 6,
+        slap: 36,
         sniff: 4,
-        think: 11,
+        think: 12,
     };
     Ok(web::Json(obj))
 }
@@ -81,8 +81,7 @@ async fn main() -> std::io::Result<()> {
             .service(index)
             .service(images)
     })
-    .bind("0.0.0.0:8080")
-    .unwrap()
+    .bind(("127.0.0.1", 8080))?
     .run()
     .await
 }
