@@ -6,8 +6,9 @@ use actix_web::{
 #[get("/{source}/{name}")]
 async fn index(path: web::Path<(String, String)>) -> Result<HttpResponse> {
     let (action, file) = path.into_inner();
-    let f = async_std::fs::read(format!("./assets/{}/{}.gif", action, file)).await?;
-    Ok(HttpResponse::Ok().content_type("image/gif").body(f))
+    let extension = if action == "fodase" || action == "humor" {"png"} else {"gif"};
+    let f = async_std::fs::read(format!("./assets/{}/{}.{}", action, file, extension)).await?;
+    Ok(HttpResponse::Ok().content_type(format!("image/{}", extension)).body(f))
 }
 
 #[actix_web::main]
