@@ -62,7 +62,7 @@ async fn index() -> Result<impl Responder> {
         shy: 43,
         slap: 36,
         sniff: 22,
-        think: 12,
+        think: 31,
     };
     Ok(web::Json(obj))
 }
