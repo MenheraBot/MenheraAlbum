@@ -1,4 +1,4 @@
-FROM rust:slim-bullseye as builder
+FROM rust:slim-buster as builder
 WORKDIR /code
 
 RUN user=root cargo init

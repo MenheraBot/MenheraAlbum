@@ -59,7 +59,7 @@ docker pull ghcr.io/menherabot/album:latest
 2. 🏃‍♂️ Running a Container
 
 ```bash
-docker run --name AlbumServer -d -t ghcr.io/menherabot/album:latest
+docker run --name AlbumServer -p 8080:8080 -d -t ghcr.io/menherabot/album:latest
 ```
 
 Vamoooooo!!! You have a HTTP server at port 8080.

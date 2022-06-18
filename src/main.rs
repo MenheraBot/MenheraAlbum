@@ -58,10 +58,10 @@ struct AvailableAssets {
 #[get("/")]
 async fn index() -> Result<impl Responder> {
     let obj = AvailableAssets {
-        angry: 39,
-        bicuda: 34,
+        angry: 37,
+        bicuda: 31,
         bite: 33,
-        cheek: 23,
+        cheek: 22,
         cry: 26,
         disgusted: 17,
         fear: 21,
@@ -76,14 +76,14 @@ async fn index() -> Result<impl Responder> {
         pat: 26,
         poke: 24,
         punch: 22,
-        resurrect: 7,
+        resurrect: 6,
         sarrar: 5,
         sarrar_sozinho: 2,
         shot: 14,
-        shy: 43,
-        slap: 36,
-        sniff: 22,
-        think: 31,
+        shy: 39,
+        slap: 29,
+        sniff: 20,
+        think: 29,
     };
     Ok(web::Json(obj))
 }
