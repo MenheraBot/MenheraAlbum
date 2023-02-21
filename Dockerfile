@@ -17,7 +17,6 @@ FROM scratch
 WORKDIR /app
 
 COPY --from=builder /code/target/x86_64-unknown-linux-musl/release/menhera_album menhera_album
-COPY assets assets
 
 USER 666
 
