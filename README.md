@@ -74,7 +74,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 📧 | Contact
 
-Discord: **Luxanna#5757**
+Discord: **@ysnoopydogy**
 
 Twitter: **[@Luxanna_Dev](https://twitter.com/Luxanna_Dev)**
 

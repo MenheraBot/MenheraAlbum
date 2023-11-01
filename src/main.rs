@@ -1,4 +1,5 @@
-use actix_web::{get, web, App, HttpServer, Responder, Result};
+use actix_web::http::header::ContentType;
+use actix_web::{get, web, App, HttpResponse, HttpServer };
 
 use actix_files::Files;
 use serde::Serialize;
@@ -44,18 +45,22 @@ fn get_categories() -> HashMap<String, usize> {
 }
 
 #[get("/")]
-async fn index() -> Result<impl Responder> {
-   let categories = get_categories();
-    Ok(web::Json(categories))
+async fn index() -> HttpResponse {
+    let categories = get_categories();
+    HttpResponse::Ok()
+        .content_type(ContentType::json())
+        .json(categories)
 }
 
 #[get("/ping")]
-async fn ping(data: web::Data<Uptime>) -> Result<impl Responder> {
+async fn ping(data: web::Data<Uptime>) -> HttpResponse {
     let obj = Ping {
         uptime: data.start_at.elapsed().as_millis(),
     };
 
-    Ok(web::Json(obj))
+    HttpResponse::Ok()
+        .content_type(ContentType::json())
+        .json(obj)
 }
 
 #[actix_web::main]
