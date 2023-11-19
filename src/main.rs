@@ -1,5 +1,5 @@
 use actix_web::http::header::ContentType;
-use actix_web::{get, web, App, HttpResponse, HttpServer };
+use actix_web::{get, head, web, App, HttpResponse, HttpServer};
 
 use actix_files::Files;
 use serde::Serialize;
@@ -53,7 +53,7 @@ async fn index() -> HttpResponse {
 }
 
 #[get("/ping")]
-async fn ping(data: web::Data<Uptime>) -> HttpResponse {
+async fn get_ping(data: web::Data<Uptime>) -> HttpResponse {
     let obj = Ping {
         uptime: data.start_at.elapsed().as_millis(),
     };
@@ -61,6 +61,13 @@ async fn ping(data: web::Data<Uptime>) -> HttpResponse {
     HttpResponse::Ok()
         .content_type(ContentType::json())
         .json(obj)
+}
+
+#[head("/ping")]
+async fn head_ping() -> HttpResponse {
+    HttpResponse::Ok()
+        .content_type(ContentType::json())
+        .finish()
 }
 
 #[actix_web::main]
@@ -73,7 +80,8 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(web::Data::new(uptime.clone()))
             .service(index)
-            .service(ping)
+            .service(get_ping)
+            .service(head_ping)
             .service(Files::new("/images", "assets"))
     })
     .bind(("0.0.0.0", 8080))?
